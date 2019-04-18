@@ -41,7 +41,7 @@ pipeline {
             steps {
                 input 'Deploy to Production?'
                 milestone(1)
-                withCredentials([sshUserPrivateKey, credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS']) {
+                withCredentials([sshUserPrivateKey, keyFileVariable: 'PRIVATE', credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS']) {
                     script {
                         sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull saitmach/train-schedule:${env.BUILD_NUMBER}\""
                         try {
